@@ -1,6 +1,7 @@
 // YE7AxpCDX1dhiC1q
 const mongoose = require('mongoose')
-const express = require('express')
+const express = require('express');
+const { set } = require('express/lib/response');
 const app = express()
 
 mongoose.set('strictQuery', true);
@@ -11,7 +12,7 @@ mongoose.connect('mongodb+srv://UserXD:YE7AxpCDX1dhiC1q@firstdb-xd-fd.bszwbtd.mo
 const bookSchema = new mongoose.Schema({
   name: String,
   author: String,
-  tags: [ String ],
+  tags: [String],
   isPublished: Boolean,
 })
 
@@ -31,7 +32,7 @@ async function createBook() {
   })
 
   const savedBook = await book.save()
-  // console.log(savedBook);
+  console.log(savedBook);
 }
 
 async function getBooks(){
@@ -39,4 +40,96 @@ async function getBooks(){
   console.log(book);
 }
 
-getBooks()
+
+async function updateBook1(id){
+  const book = await Book.findById(id)
+  if (!book) {return}
+  book.isPublished = true
+  book.author = "Dilshod"
+
+  book.save()
+}
+
+
+async function updateBook2(id){
+  const result = await Book.updateMany({_id: id}, {
+    $set: {
+      author: "Unknow",
+      isPublished: true
+    }
+  })
+}
+
+// updateBook2('63e42dd8507b1d836b7a8f50')
+
+
+async function deleteBook1(id){
+  const result = await Book.deleteOne({_id: id})
+  console.log(result);
+}
+
+deleteBook1('63e42dd8507b1d836b7a8f50')
+
+
+async function deleteBook2(id){
+  const book = await Book.findByIdAndRemove({_id: id})
+  console.log(book);
+}
+
+deleteBook2('63e42df3728071fe1eb91cc0')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const geoSchema = mongoose.Schema({
+//   lat: String,
+//   lng: String
+// })
+
+// const adresSchema = mongoose.Schema({
+//   street: String,
+//   suite: String,
+//   city: String,
+//   zipcode: String,
+//   geo: geoSchema
+// })
+
+// const companySchema = mongoose.Schema({
+//   name: String,
+//   catchPhrase: String,
+//   bs: String
+// })
+
+// const userSchema = mongoose.Schema({
+//   id: Number,
+//   name: String,
+//   username: String,
+//   email: String,
+//   address: adresSchema,
+//   phone: String,
+//   website: String,
+//   company: companySchema
+// }, { collection: 'inventory' })
+
+// const iventory = mongoose.model('inventory', userSchema)
+
+// async function getUser() {
+//   const user = await iventory.find({ adress: { street: "Kulas Light" } })
+//   console.log(user);
+// }
+
+// getUser()
