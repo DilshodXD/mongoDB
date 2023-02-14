@@ -10,7 +10,7 @@ mongoose.connect('mongodb+srv://UserXD:YE7AxpCDX1dhiC1q@firstdb-xd-fd.bszwbtd.mo
   .catch(err => console.log(err));
 
 const bookSchema = new mongoose.Schema({
-  name: String,
+  name: {type: String, required: true},
   author: String,
   tags: [String],
   isPublished: Boolean,
@@ -21,7 +21,7 @@ const Book = mongoose.model('Book', bookSchema)
 
 async function createBook() {
   const book = new Book({
-    name: 'Mukammal dasturlash',
+    // name: 'Mukammal dasturlash',
     author: "Javlon Abdullo",
     tags: ['js', 'dasturlash', 'javascript'],
     date: {
@@ -34,6 +34,8 @@ async function createBook() {
   const savedBook = await book.save()
   console.log(savedBook);
 }
+
+createBook()
 
 async function getBooks(){
   const book = await Book.find()
@@ -68,7 +70,7 @@ async function deleteBook1(id){
   console.log(result);
 }
 
-deleteBook1('63e42dd8507b1d836b7a8f50')
+// deleteBook1('63e42dd8507b1d836b7a8f50')
 
 
 async function deleteBook2(id){
@@ -76,7 +78,7 @@ async function deleteBook2(id){
   console.log(book);
 }
 
-deleteBook2('63e42df3728071fe1eb91cc0')
+// deleteBook2('63e42df3728071fe1eb91cc0')
 
 
 
